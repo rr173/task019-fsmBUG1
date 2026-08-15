@@ -35,7 +35,10 @@ func (d Definition) Validate() error {
 		return errors.New("状态集合不能为空")
 	}
 	seen := make(map[string]bool, len(d.States))
-	for _, s := range d.States {
+	for i, s := range d.States {
+		if strings.TrimSpace(s) == "" {
+			return fmt.Errorf("第 %d 个状态名为空", i)
+		}
 		if seen[s] {
 			return fmt.Errorf("状态名重复：%q", s)
 		}
